@@ -1,0 +1,12 @@
+{
+  "name": "movie-recommendation-app",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter frontend dev",
+    "build": "pnpm --filter frontend build",
+    "start": "pnpm --filter backend start"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
