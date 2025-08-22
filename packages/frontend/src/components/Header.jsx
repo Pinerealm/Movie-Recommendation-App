@@ -1,21 +1,16 @@
-import { Link } from 'react-router-dom';
+import Navbar from './Navbar';
+import SearchBar from './SearchBar';
 
 const Header = () => {
+  const handleSearch = (query) => {
+    console.log('Searching for:', query);
+    // Handle search logic here
+  };
+
   return (
     <header>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link to="/register">Register</Link>
-          </li>
-        </ul>
-      </nav>
+      <Navbar />
+      <SearchBar onSearch={handleSearch} />
     </header>
   );
 };
