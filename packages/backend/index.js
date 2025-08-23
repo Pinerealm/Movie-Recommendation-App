@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
+import movieRoutes from "./routes/movieRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 
 dotenv.config();
@@ -21,6 +22,7 @@ app.get("/", (_req, res) => {
 });
 
 app.use("/api/users", userRoutes);
+app.use("/api/movies", movieRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
