@@ -2,11 +2,12 @@
   "name": "movie-recommendation-app",
   "private": true,
   "scripts": {
-    "dev": "pnpm --filter frontend dev",
+    "dev": "concurrently \"pnpm --filter frontend dev\" \"pnpm --filter backend dev\"",
     "build": "pnpm --filter frontend build",
     "start": "pnpm --filter backend start"
   },
   "devDependencies": {
+    "concurrently": "^9.2.1",
     "vite": "^5.0.0"
   }
 }
