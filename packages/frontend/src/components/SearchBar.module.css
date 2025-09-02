@@ -1,0 +1,38 @@
+.searchBar {
+  padding: 1rem 2rem;
+  background-color: #1a1a1a;
+}
+
+.searchBar form {
+  display: flex;
+}
+
+.searchBar input {
+  flex-grow: 1;
+  padding: 0.8rem;
+  border: 1px solid #333;
+  border-radius: 5px 0 0 5px;
+  background-color: #2a2a2a;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.searchBar input::placeholder {
+  color: #888;
+}
+
+.searchBar button {
+  padding: 0.8rem 1.5rem;
+  border: 1px solid #646cff;
+  border-left: none;
+  border-radius: 0 5px 5px 0;
+  background-color: #646cff;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.searchBar button:hover {
+  background-color: #535bf2;
+}

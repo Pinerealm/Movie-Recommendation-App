@@ -1,16 +1,14 @@
 import Navbar from './Navbar';
-import SearchBar from './SearchBar';
+import { Link } from 'react-router-dom';
+import styles from './Header.module.css';
 
 const Header = () => {
-  const handleSearch = (query) => {
-    console.log('Searching for:', query);
-    // Handle search logic here
-  };
-
   return (
-    <header>
+    <header className={styles.header}>
+      <Link to="/" className={styles.logo}>
+        MovieApp
+      </Link>
       <Navbar />
-      <SearchBar onSearch={handleSearch} />
     </header>
   );
 };
