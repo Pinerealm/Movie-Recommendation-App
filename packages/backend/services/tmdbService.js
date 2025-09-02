@@ -1,13 +1,12 @@
 import axios from "axios";
 
-const TMDB_API_KEY = process.env.TMDB_API_KEY;
 const TMDB_API_URL = "https://api.themoviedb.org/3";
 
 const fetchPopularMovies = async () => {
   try {
     const response = await axios.get(`${TMDB_API_URL}/movie/popular`, {
       params: {
-        api_key: TMDB_API_KEY,
+        api_key: process.env.TMDB_API_KEY,
         // language: 'en-US',
         // page: 1,
       },
@@ -23,7 +22,7 @@ const searchMovies = async (query) => {
   try {
     const response = await axios.get(`${TMDB_API_URL}/search/movie`, {
       params: {
-        api_key: TMDB_API_KEY,
+        api_key: process.env.TMDB_API_KEY,
         query,
       },
     });
@@ -38,7 +37,7 @@ const fetchMovieDetails = async (movieId) => {
   try {
     const response = await axios.get(`${TMDB_API_URL}/movie/${movieId}`, {
       params: {
-        api_key: TMDB_API_KEY,
+        api_key: process.env.TMDB_API_KEY,
       },
     });
     return response.data;
