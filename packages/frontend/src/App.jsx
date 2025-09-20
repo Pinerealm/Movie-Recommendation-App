@@ -4,8 +4,10 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import MovieDetails from './pages/MovieDetails';
+import Profile from './pages/Profile';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
+import ProtectedRoute from './components/ProtectedRoute';
 import movieService from './services/movieService';
 import setAuthToken from './utils/setAuthToken';
 import Footer from './components/Footer';
@@ -20,40 +22,28 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        setLoading(true);
-        const popularMovies = await movieService.getPopularMovies();
-        setMovies(popularMovies);
-        setError(null);
-      } catch (err) {
-        setError('Failed to fetch movies. Please try again later.');
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // Shared function to fetch popular movies
+  const fetchPopularMovies = async () => {
+    try {
+      setLoading(true);
+      const popularMovies = await movieService.getPopularMovies();
+      setMovies(popularMovies);
+      setError(null);
+    } catch (err) {
+      setError('Failed to fetch movies. Please try again later.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchMovies();
+  useEffect(() => {
+    fetchPopularMovies();
   }, []);
 
   const handleSearch = async (query) => {
     if (!query) {
-      const fetchMovies = async () => {
-        try {
-          setLoading(true);
-          const popularMovies = await movieService.getPopularMovies();
-          setMovies(popularMovies);
-          setError(null);
-        } catch (err) {
-          setError('Failed to fetch movies. Please try again later.');
-          console.error(err);
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchMovies();
+      fetchPopularMovies();
       return;
     }
     try {
@@ -82,6 +72,14 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/movie/:id" element={<MovieDetails />} />
+          <Route 
+            path="/profile" 
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            } 
+          />
         </Routes>
       </main>
       <Footer />
