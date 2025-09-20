@@ -105,11 +105,12 @@ All endpoints are prefixed with `/api`.
   - **Query Param**: `?query=...`
 - `GET /:id`: Get detailed information for a specific movie by its TMDb ID.
 
-### Watchlist Endpoints (`/api/watchlist`)
+### Favorites Endpoints (`/api/users/favorites`)
 
-- `GET /`: Get the user's watchlist (Protected).
-- `POST /`: Add a movie to the watchlist (Protected).
-- `DELETE /:id`: Remove a movie from the watchlist (Protected).
+- `GET /`: Get the user's favorite movies (Protected).
+- `POST /`: Add a movie to favorites (Protected).
+  - **Body**: `{ "movieId": "..." }`
+- `DELETE /:movieId`: Remove a movie from favorites by its TMDb ID (Protected).
 
 ## Contributing
 
