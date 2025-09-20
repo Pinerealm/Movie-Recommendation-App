@@ -109,12 +109,15 @@ const addFavoriteMovie = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (user) {
-    if (user.favorites.includes(movieId)) {
+    // Convert movieId to number for comparison
+    const movieIdNum = parseInt(movieId);
+    
+    if (user.favorites.includes(movieIdNum)) {
       res.status(400);
       throw new Error("Movie already in favorites");
     }
 
-    user.favorites.push(movieId);
+    user.favorites.push(movieIdNum);
     await user.save();
     res.status(201).json(user.favorites);
   } else {
@@ -131,7 +134,9 @@ const removeFavoriteMovie = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (user) {
-    user.favorites = user.favorites.filter((id) => id.toString() !== movieId);
+    // Convert movieId to number for comparison
+    const movieIdNum = parseInt(movieId);
+    user.favorites = user.favorites.filter((id) => id !== movieIdNum);
     await user.save();
     res.json({ message: "Movie removed from favorites" });
   } else {

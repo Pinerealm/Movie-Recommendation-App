@@ -18,8 +18,8 @@ const userSchema = mongoose.Schema(
     },
     favorites: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Movie",
+        type: Number,
+        required: true,
       },
     ],
   },
