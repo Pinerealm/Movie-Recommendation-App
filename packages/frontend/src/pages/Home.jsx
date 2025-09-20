@@ -3,9 +3,9 @@ import styles from '../App.module.css';
 
 const Home = ({ movies, loading, error }) => {
   return (
-    <div>
-      {loading && <p>Loading...</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <div className={styles.homepage}>
+      {loading && <p className={styles.loadingText}>Loading amazing movies...</p>}
+      {error && <p className={styles.errorText}>{error}</p>}
       <div className={styles.moviesContainer}>
         {movies.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
