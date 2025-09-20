@@ -1,8 +1,11 @@
 import { useState } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import userService from '../services/userService';
+import setAuthToken from '../utils/setAuthToken';
 import styles from './Login.module.css';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -51,30 +54,25 @@ const Login = () => {
     setErrors({});
     setSuccess('');
 
-    const user = {
+    const userData = {
       email,
       password,
     };
 
     try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
-
-      const body = JSON.stringify(user);
-
-      const res = await axios.post('/api/users/login', body, config);
-      console.log(res.data);
+      const data = await userService.login(userData);
+      // console.log(data);
       
-      // Store token and show success
-      localStorage.setItem('token', res.data.token);
+      // Store token and set auth header
+      localStorage.setItem('token', data.token);
+      setAuthToken(data.token);
       setSuccess('Login successful! Redirecting...');
       
       // Redirect after a short delay
       setTimeout(() => {
-        window.location.href = '/';
+        navigate('/');
+        // Force refresh to update navigation state
+        window.location.reload();
       }, 1500);
     } catch (err) {
       console.error(err.response?.data);
