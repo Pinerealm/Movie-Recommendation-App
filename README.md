@@ -13,11 +13,13 @@ This is a full-stack movie recommendation application built with the MERN stack 
 
 ## Features
 
-- User registration and login with JWT authentication.
-- Browse and search for movies from The Movie Database (TMDb) API.
-- View detailed information for each movie.
-- Add and remove movies from a personal watchlist.
-- Get movie recommendations (to be implemented).
+- **User Authentication**: Complete user registration and login system with JWT authentication
+- **Movie Discovery**: Browse popular movies and search for specific titles using The Movie Database (TMDb) API
+- **Movie Details**: View comprehensive movie information including ratings, genres, release dates, and overview
+- **Favorites Management**: Add and remove movies from your personal favorites list with real-time updates
+- **User Profile**: Dedicated profile page displaying user information and favorite movies collection
+- **Responsive Design**: Modern glassmorphism UI that works seamlessly on desktop and mobile devices
+- **Protected Routes**: Secure access to user-specific features with authentication checks
 
 ## Getting Started
 
@@ -26,7 +28,7 @@ This is a full-stack movie recommendation application built with the MERN stack 
 - Node.js (v18 or later recommended)
 - pnpm (v8 or later)
 - MongoDB instance (local or cloud, e.g., MongoDB Atlas)
-- A TMDb API key
+- A TMDb API key (get one from [The Movie Database](https://www.themoviedb.org/settings/api))
 
 ### Installation
 
@@ -85,6 +87,25 @@ pnpm dev
 
    The backend will serve the application.
 
+## Recent Updates
+
+### v2.0 - User Profile & Favorites Management
+
+- ✅ **Complete User Profile System**: Dedicated profile page with user information display
+- ✅ **Advanced Favorites Management**: Real-time add/remove favorites with visual feedback
+- ✅ **Enhanced Movie Cards**: Interactive favorite buttons with loading states and animations
+- ✅ **Improved Movie Details**: Modern UI with comprehensive movie information and favorites integration
+- ✅ **Protected Routes**: Secure access to user-specific features
+- ✅ **Responsive Design**: Glassmorphism UI theme that works on all devices
+- ✅ **Code Optimization**: Eliminated redundant code and improved maintainability
+
+### Development Improvements
+
+- Consolidated duplicate API call patterns
+- Enhanced error handling consistency
+- Improved authentication state management
+- Modern CSS with glassmorphism design patterns
+
 ## API Endpoints
 
 All endpoints are prefixed with `/api`.
@@ -97,6 +118,7 @@ All endpoints are prefixed with `/api`.
   - **Body**: `{ "email": "...", "password": "..." }`
 - `GET /profile`: Get the current user's profile (Protected).
 - `PUT /profile`: Update the current user's profile (Protected).
+  - **Body**: `{ "name": "...", "email": "...", "password": "..." }` (all fields optional)
 
 ### Movie Endpoints (`/api/movies`)
 
@@ -107,10 +129,69 @@ All endpoints are prefixed with `/api`.
 
 ### Favorites Endpoints (`/api/users/favorites`)
 
-- `GET /`: Get the user's favorite movies (Protected).
+- `GET /`: Get the user's favorite movies with full movie details (Protected).
 - `POST /`: Add a movie to favorites (Protected).
-  - **Body**: `{ "movieId": "..." }`
+  - **Body**: `{ "movieId": "123" }` (TMDb movie ID as number)
 - `DELETE /:movieId`: Remove a movie from favorites by its TMDb ID (Protected).
+
+## Project Structure
+
+```text
+Movie-Recommendation-App/
+├── packages/
+│   ├── backend/                 # Express.js API server
+│   │   ├── controllers/         # Route handlers
+│   │   ├── middleware/          # Auth & error middleware
+│   │   ├── models/             # MongoDB schemas
+│   │   ├── routes/             # API routes
+│   │   ├── services/           # External API services (TMDb)
+│   │   └── utils/              # Utility functions
+│   └── frontend/               # React SPA
+│       ├── src/
+│       │   ├── components/     # Reusable UI components
+│       │   ├── pages/          # Route components
+│       │   ├── services/       # API client functions
+│       │   └── utils/          # Helper utilities
+│       └── public/
+├── pnpm-workspace.yaml         # Workspace configuration
+└── package.json               # Root package scripts
+```
+
+## Key Technologies
+
+- **Frontend**: React 18, React Router, Vite, CSS Modules
+- **Backend**: Node.js, Express.js, MongoDB, Mongoose
+- **Authentication**: JWT (JSON Web Tokens)
+- **External API**: The Movie Database (TMDb) API
+- **Package Manager**: pnpm with workspace support
+- **Development**: Nodemon, Concurrently for dev workflow
+
+## Troubleshooting
+
+### Common Issues
+
+1. **"Failed to connect to MongoDB"**
+   - Ensure MongoDB is running locally or your Atlas connection string is correct
+   - Check that your `MONGO_URI` in the `.env` file is properly formatted
+
+2. **"API requests failing in development"**
+   - Verify the backend is running on port 5001
+   - Check that Vite proxy configuration in `vite.config.js` points to `http://localhost:5001`
+
+3. **"Authentication not working"**
+   - Make sure `JWT_SECRET` is set in your `.env` file
+   - Check browser developer tools for token-related errors
+
+4. **"TMDb API errors"**
+   - Verify your `TMDB_API_KEY` is valid and active
+   - Check the TMDb API documentation for rate limits
+
+### Development Tips
+
+- Use `pnpm dev` from the root directory to run both frontend and backend simultaneously
+- Backend runs on port 5001, frontend on port 5173 (or next available)
+- Check browser console and terminal output for detailed error messages
+- MongoDB connection logs appear in the backend terminal
 
 ## Contributing
 
