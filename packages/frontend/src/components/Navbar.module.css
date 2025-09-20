@@ -3,6 +3,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  align-items: center;
 }
 
 .navbar li {
@@ -14,8 +15,30 @@
   text-decoration: none;
   font-size: 1rem;
   transition: color 0.3s;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
 .navbar a:hover {
   color: #646cff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.logoutButton {
+  background: linear-gradient(135deg, #ff6b8a 0%, #ff8e91 100%);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.logoutButton:hover {
+  background: linear-gradient(135deg, #ff5577 0%, #ff7a7e 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 107, 138, 0.3);
 }
