@@ -1,15 +1,11 @@
 # Movie Recommendation App
 
-This is a full-stack movie recommendation application that allows users to discover new movies, create a watchlist, and get recommendations based on their preferences.
+This is a full-stack movie recommendation application built with the MERN stack (MongoDB, Express, React, Node.js) and organized as a pnpm monorepo. It allows users to discover movies, manage a watchlist, and get recommendations.
 
 ## Table of Contents
 
 - [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
 - [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
 - [Usage](#usage)
 - [API Endpoints](#api-endpoints)
 - [Contributing](#contributing)
@@ -23,51 +19,27 @@ This is a full-stack movie recommendation application that allows users to disco
 - Add and remove movies from a personal watchlist.
 - Get movie recommendations (to be implemented).
 
-## Tech Stack
-
-**Frontend:**
-
-- React
-- React Router
-- Vite
-- CSS
-
-**Backend:**
-
-- Node.js
-- Express
-- MongoDB
-- Mongoose
-- JWT for authentication
-
-## Project Structure
-
-The project is a monorepo managed with pnpm workspaces.
-
-- `packages/frontend`: The React frontend application.
-- `packages/backend`: The Node.js/Express backend API.
-
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v14 or later)
-- pnpm
-- MongoDB instance (local or cloud)
+- Node.js (v18 or later recommended)
+- pnpm (v8 or later)
+- MongoDB instance (local or cloud, e.g., MongoDB Atlas)
 - A TMDb API key
 
 ### Installation
 
-1. **Clone the repository if needed:**
+1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-username/movie-recommendation-app.git
-   cd movie-recommendation-app
+   git clone https://github.com/Pinerealm/Movie-Recommendation-App.git
+   cd Movie-Recommendation-App
    ```
 
-2. **Install dependencies:**
+2. **Install dependencies from the root directory:**
 
-   This command will install dependencies for both the frontend and backend.
+   This command installs dependencies for both the frontend and backend workspaces.
 
    ```bash
    pnpm install
@@ -75,56 +47,69 @@ The project is a monorepo managed with pnpm workspaces.
 
 3. **Set up environment variables:**
 
-   Create a `.env` file in the `packages/backend` directory and add the following variables:
+   Create a `.env` file in the `packages/backend` directory. Set the backend port to 5001 to align with the frontend's Vite proxy configuration.
 
-   ```bash
+   ```env
    MONGO_URI=<your_mongodb_connection_string>
    JWT_SECRET=<your_jwt_secret_key>
-   PORT=5000
+   PORT=5001
    TMDB_API_KEY=<your_tmdb_api_key>
    ```
 
 ## Usage
 
-1. **Start the backend server:**
+### Development
+
+To run both the frontend and backend servers concurrently in development mode, run the following command from the root directory:
+
+```bash
+pnpm dev
+```
+
+- The backend server (with nodemon) will start on `http://localhost:5001`.
+- The frontend Vite dev server will start on a different port (e.g., `http://localhost:5173`) and will proxy API requests from `/api` to the backend.
+
+### Production
+
+1. **Build the frontend:**
 
    ```bash
-   # For production
+   pnpm build
+   ```
+
+2. **Start the backend server:**
+
+   ```bash
    pnpm start
-
-   # For development with nodemon
-   pnpm --filter backend dev
    ```
 
-   The backend will be running at `http://localhost:5000`.
-
-2. **Start the frontend development server:**
-
-   ```bash
-   pnpm dev
-   ```
-
-   The frontend will be running at `http://localhost:5173`.
+   The backend will serve the application.
 
 ## API Endpoints
 
-### User Routes
+All endpoints are prefixed with `/api`.
 
-- `POST /api/users/register`: Register a new user.
-- `POST /api/users/login`: Log in a user.
-- `GET /api/users/me`: Get the current user's profile.
+### User Endpoints (`/api/users`)
 
-### Movie Routes
+- `POST /register`: Register a new user.
+  - **Body**: `{ "name": "...", "email": "...", "password": "..." }`
+- `POST /login`: Authenticate a user and get a token.
+  - **Body**: `{ "email": "...", "password": "..." }`
+- `GET /profile`: Get the current user's profile (Protected).
+- `PUT /profile`: Update the current user's profile (Protected).
 
-- `GET /api/movies/popular`: Get popular movies.
-- `GET /api/movies/search?query=<search_term>`: Search for movies.
-- `GET /api/movies/:id`: Get details for a specific movie.
+### Movie Endpoints (`/api/movies`)
 
-### Watchlist Routes
+- `GET /popular`: Get a list of popular movies from TMDb.
+- `GET /search`: Search for movies by a query string.
+  - **Query Param**: `?query=...`
+- `GET /:id`: Get detailed information for a specific movie by its TMDb ID.
 
-- `GET /api/watchlist`: Get the user's watchlist.
-- `POST /api/watchlist`: Add a movie to the watchlist.
-- `DELETE /api/watchlist/:id`: Remove a movie from the watchlist.
+### Watchlist Endpoints (`/api/watchlist`)
+
+- `GET /`: Get the user's watchlist (Protected).
+- `POST /`: Add a movie to the watchlist (Protected).
+- `DELETE /:id`: Remove a movie from the watchlist (Protected).
 
 ## Contributing
 
