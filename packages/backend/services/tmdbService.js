@@ -2,19 +2,20 @@ import axios from "axios";
 
 const TMDB_API_URL = "https://api.themoviedb.org/3";
 
-const fetchPopularMovies = async () => {
+const fetchMovies = async (sortBy = "popularity.desc") => {
   try {
-    const response = await axios.get(`${TMDB_API_URL}/movie/popular`, {
+    const response = await axios.get(`${TMDB_API_URL}/discover/movie`, {
       params: {
         api_key: process.env.TMDB_API_KEY,
-        // language: 'en-US',
-        // page: 1,
+        sort_by: sortBy,
+        include_adult: false,
+        page: 1,
       },
     });
     return response.data.results;
   } catch (error) {
-    console.error("Error fetching popular movies from TMDB:", error);
-    throw new Error("Error fetching popular movies from TMDB");
+    console.error("Error fetching movies from TMDB:", error);
+    throw new Error("Error fetching movies from TMDB");
   }
 };
 
@@ -47,4 +48,4 @@ const fetchMovieDetails = async (movieId) => {
   }
 };
 
-export { fetchPopularMovies, searchMovies, fetchMovieDetails };
+export { fetchMovies, searchMovies, fetchMovieDetails };

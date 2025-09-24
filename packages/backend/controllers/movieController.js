@@ -1,15 +1,16 @@
 import asyncHandler from "express-async-handler";
 import {
-  fetchPopularMovies,
+  fetchMovies,
   searchMovies,
   fetchMovieDetails,
 } from "../services/tmdbService.js";
 
-// @desc    Fetch popular movies
-// @route   GET /api/movies/popular
+// @desc    Fetch movies with sorting
+// @route   GET /api/movies
 // @access  Public
-const getPopularMovies = asyncHandler(async (req, res) => {
-  const movies = await fetchPopularMovies();
+const getMovies = asyncHandler(async (req, res) => {
+  const { sortBy } = req.query;
+  const movies = await fetchMovies(sortBy);
   res.json(movies);
 });
 
@@ -35,4 +36,4 @@ const getMovieDetails = asyncHandler(async (req, res) => {
   res.json(movie);
 });
 
-export { getPopularMovies, searchMoviesController, getMovieDetails };
+export { getMovies, searchMoviesController, getMovieDetails };
