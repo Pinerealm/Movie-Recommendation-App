@@ -22,12 +22,14 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Shared function to fetch popular movies
-  const fetchPopularMovies = async () => {
+  const [filter, setFilter] = useState('popularity.desc');
+
+  // Shared function to fetch movies
+  const fetchMovies = async (sortBy = 'popularity.desc') => {
     try {
       setLoading(true);
-      const popularMovies = await movieService.getPopularMovies();
-      setMovies(popularMovies);
+      const movies = await movieService.getMovies(sortBy);
+      setMovies(movies);
       setError(null);
     } catch (err) {
       setError('Failed to fetch movies. Please try again later.');
@@ -38,12 +40,16 @@ function App() {
   };
 
   useEffect(() => {
-    fetchPopularMovies();
-  }, []);
+    fetchMovies(filter);
+  }, [filter]);
+
+  const handleFilterChange = (newFilter) => {
+    setFilter(newFilter);
+  };
 
   const handleSearch = async (query) => {
     if (!query) {
-      fetchPopularMovies();
+      fetchMovies(filter);
       return;
     }
     try {
@@ -67,7 +73,14 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<Home movies={movies} loading={loading} error={error} />}
+            element={
+              <Home
+                movies={movies}
+                loading={loading}
+                error={error}
+                onFilterChange={handleFilterChange}
+              />
+            }
           />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

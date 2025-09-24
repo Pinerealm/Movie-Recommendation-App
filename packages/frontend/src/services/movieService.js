@@ -2,8 +2,10 @@ import axios from "axios";
 
 const API_URL = "/api/movies";
 
-const getPopularMovies = async () => {
-  const response = await axios.get(`${API_URL}/popular`);
+const getMovies = async (sortBy) => {
+  const response = await axios.get(API_URL, {
+    params: { sortBy },
+  });
   return response.data;
 };
 
@@ -15,6 +17,6 @@ const searchMovies = async (query) => {
 };
 
 export default {
-  getPopularMovies,
+  getMovies,
   searchMovies,
 };
