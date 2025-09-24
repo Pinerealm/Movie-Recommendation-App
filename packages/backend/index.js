@@ -6,6 +6,7 @@ import cors from "cors";
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
 import movieRoutes from "./routes/movieRoutes.js";
+import watchlistRoutes from "./routes/watchlistRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 
 connectDB();
@@ -23,6 +24,7 @@ app.get("/", (_req, res) => {
 
 app.use("/api/users", userRoutes);
 app.use("/api/movies", movieRoutes);
+app.use("/api/watchlists", watchlistRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

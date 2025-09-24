@@ -13,8 +13,7 @@ const watchlistSchema = mongoose.Schema(
     },
     movies: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Movie",
+        type: Number,
       },
     ],
   },
