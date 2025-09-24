@@ -25,6 +25,9 @@ const Navbar = () => {
               <Link to="/profile">Profile</Link>
             </li>
             <li>
+              <Link to="/watchlists">Watchlists</Link>
+            </li>
+            <li>
               <button 
                 onClick={handleLogout}
                 className={styles.logoutButton}

@@ -5,6 +5,9 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import MovieDetails from './pages/MovieDetails';
 import Profile from './pages/Profile';
+import Watchlists from "./pages/Watchlists";
+import Watchlist from "./pages/Watchlist";
+import CreateWatchlist from "./pages/CreateWatchlist";
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -92,6 +95,30 @@ function App() {
                 <Profile />
               </ProtectedRoute>
             } 
+          />
+          <Route
+            path="/watchlists/new"
+            element={
+              <ProtectedRoute>
+                <CreateWatchlist />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/watchlists"
+            element={
+              <ProtectedRoute>
+                <Watchlists />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/watchlists/:id"
+            element={
+              <ProtectedRoute>
+                <Watchlist />
+              </ProtectedRoute>
+            }
           />
         </Routes>
       </main>
