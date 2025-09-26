@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import userService from "../services/userService";
 import styles from "./MovieDetails.module.css";
+import ReviewSection from "../components/ReviewSection";
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -99,123 +100,61 @@ const MovieDetails = () => {
   }
 
   if (!movie) {
-    return (
-      <div className={styles.notFoundContainer}>
-        <div>
-          <h2>Movie not found</h2>
-          <button
-            onClick={() => navigate('/')}
-            className={styles.errorButton}
-          >
-            Go Home
-          </button>
-        </div>
-      </div>
-    );
+    return <div>Movie not found.</div>;
   }
 
-  const posterUrl = movie.poster_path
-    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-    : 'https://via.placeholder.com/500x750?text=No+Image';
+  const {
+    title,
+    overview,
+    release_date,
+    poster_path,
+    backdrop_path,
+    genres,
+    runtime,
+    vote_average,
+    vote_count,
+  } = movie;
 
   return (
-    <div className={styles.container}>
-      <div className={styles.contentWrapper}>
-        <div className={styles.movieDetailsLayout}>
-          {/* Movie Poster */}
-          <div className={styles.posterContainer}>
-            <img
-              src={posterUrl}
-              alt={movie.title}
-              className={styles.posterImage}
-            />
+    <div className={styles.movieDetailsContainer}>
+      <div
+        className={styles.background}
+        style={{
+          backgroundImage: `url(https://image.tmdb.org/t/p/original${backdrop_path})`,
+        }}
+      ></div>
+      <div className={styles.content}>
+        <div className={styles.poster}>
+          <img
+            src={`https://image.tmdb.org/t/p/w500${poster_path}`}
+            alt={title}
+          />
+        </div>
+        <div className={styles.details}>
+          <h1 className={styles.title}>{title}</h1>
+          <div className={styles.meta}>
+            <span>{new Date(release_date).getFullYear()}</span>
+            <span>{genres.map((g) => g.name).join(", ")}</span>
+            <span>{runtime} min</span>
           </div>
-
-          {/* Movie Info */}
-          <div className={styles.movieInfo}>
-            <div className={styles.titleContainer}>
-              <h1 className={styles.movieTitle}>
-                {movie.title}
-              </h1>
-              
-              {/* Favorite Button */}
-              <button
-                onClick={handleFavoriteToggle}
-                disabled={favoriteLoading}
-                className={`${styles.favoriteButton} ${
-                  favoriteLoading 
-                    ? styles.favoriteButtonLoading 
-                    : isFavorite 
-                      ? styles.favoriteButtonActive 
-                      : styles.favoriteButtonInactive
-                }`}
-              >
-                <span className={styles.favoriteIcon}>
-                  {favoriteLoading ? '⏳' : (isFavorite ? '❤️' : '🤍')}
-                </span>
-                {favoriteLoading ? 'Updating...' : (isFavorite ? 'Remove from Favorites' : 'Add to Favorites')}
-              </button>
-            </div>
-
-            {movie.tagline && (
-              <p className={styles.tagline}>
-                "{movie.tagline}"
-              </p>
-            )}
-
-            <div className={styles.movieMeta}>
-              <div className={styles.ratingBadge}>
-                <span className={styles.ratingIcon}>⭐</span>
-                <span className={styles.ratingValue}>
-                  {movie.vote_average.toFixed(1)}
-                </span>
-                <span className={styles.ratingCount}>
-                  ({movie.vote_count} votes)
-                </span>
-              </div>
-              
-              {movie.release_date && (
-                <div className={styles.releaseBadge}>
-                  <strong>Released:</strong> {new Date(movie.release_date).getFullYear()}
-                </div>
-              )}
-              
-              {movie.runtime && (
-                <div className={styles.runtimeBadge}>
-                  <strong>Runtime:</strong> {movie.runtime} min
-                </div>
-              )}
-            </div>
-
-            <div className={styles.overviewSection}>
-              <h3 className={styles.sectionTitle}>
-                Overview
-              </h3>
-              <p className={styles.overviewText}>
-                {movie.overview}
-              </p>
-            </div>
-
-            {movie.genres && movie.genres.length > 0 && (
-              <div>
-                <h3 className={styles.genresTitle}>
-                  Genres
-                </h3>
-                <div className={styles.genresContainer}>
-                  {movie.genres.map((genre) => (
-                    <span
-                      key={genre.id}
-                      className={styles.genreBadge}
-                    >
-                      {genre.name}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
+          <div className={styles.rating}>
+            <span>
+              Rating: {vote_average.toFixed(1)} ({vote_count} votes)
+            </span>
+          </div>
+          <p className={styles.overview}>{overview}</p>
+          <div className={styles.actions}>
+            <button onClick={handleFavoriteToggle} disabled={favoriteLoading}>
+              {favoriteLoading
+                ? "..."
+                : isFavorite
+                ? "★ Remove from Favorites"
+                : "☆ Add to Favorites"}
+            </button>
           </div>
         </div>
       </div>
+      <ReviewSection movieId={id} />
     </div>
   );
 };

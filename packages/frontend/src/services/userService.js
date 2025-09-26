@@ -68,11 +68,13 @@ const isAuthenticated = () => {
 // Get current user from token
 const getCurrentUser = () => {
   const token = localStorage.getItem("token");
-  if (!token) return null;
+  if (!isAuthenticated()) return null;
 
   try {
     const payload = JSON.parse(atob(token.split(".")[1]));
-    return { id: payload.id };
+    // The user object from Redux used to have `_id`, so we'll add it here for consistency.
+    // The token itself is also needed for API calls.
+    return { _id: payload.id, token };
   } catch {
     return null;
   }
