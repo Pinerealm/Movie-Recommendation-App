@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import userService from "../services/userService";
+import watchlistService from "../services/watchlistService";
 import styles from "./MovieDetails.module.css";
 import ReviewSection from "../components/ReviewSection";
 
@@ -13,8 +14,12 @@ const MovieDetails = () => {
   const [error, setError] = useState('');
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoriteLoading, setFavoriteLoading] = useState(false);
+  const [watchlists, setWatchlists] = useState([]);
+  const [selectedWatchlist, setSelectedWatchlist] = useState('');
+  const [watchlistLoading, setWatchlistLoading] = useState(false);
 
   const isAuthenticated = userService.isAuthenticated();
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -25,13 +30,19 @@ const MovieDetails = () => {
         const { data } = await axios.get(`/api/movies/${id}`);
         setMovie(data);
         
-        // Check if movie is in user's favorites
         if (isAuthenticated) {
           try {
             const favorites = await userService.getFavorites();
             setIsFavorite(favorites.some(fav => fav.id === parseInt(id)));
+
+            const userWatchlists = await watchlistService.getWatchlists(token);
+            setWatchlists(userWatchlists);
+            if (userWatchlists.length > 0) {
+              setSelectedWatchlist(userWatchlists[0]._id);
+            }
+
           } catch (err) {
-            console.error('Error checking favorite status:', err);
+            console.error('Error checking favorite status or fetching watchlists:', err);
           }
         }
       } catch (error) {
@@ -45,7 +56,7 @@ const MovieDetails = () => {
     if (id) {
       fetchMovieDetails();
     }
-  }, [id, isAuthenticated]);
+  }, [id, isAuthenticated, token]);
 
   const handleFavoriteToggle = async () => {
     if (!isAuthenticated) {
@@ -68,6 +79,30 @@ const MovieDetails = () => {
       alert('Failed to update favorites. Please try again.');
     } finally {
       setFavoriteLoading(false);
+    }
+  };
+
+  const handleAddToWatchlist = async () => {
+    if (!isAuthenticated) {
+      alert('Please log in to add movies to a watchlist');
+      navigate('/login');
+      return;
+    }
+    if (!selectedWatchlist) {
+      alert('Please select a watchlist.');
+      return;
+    }
+
+    setWatchlistLoading(true);
+    try {
+      await watchlistService.addMovieToWatchlist(selectedWatchlist, movie.id, token);
+      alert(`Movie added to watchlist!`);
+    } catch (error) {
+      console.error('Error adding to watchlist:', error);
+      const errorMessage = error.response?.data?.message || 'Failed to add to watchlist. Please try again.';
+      alert(errorMessage);
+    } finally {
+      setWatchlistLoading(false);
     }
   };
 
@@ -151,6 +186,27 @@ const MovieDetails = () => {
                 ? "★ Remove from Favorites"
                 : "☆ Add to Favorites"}
             </button>
+            {isAuthenticated && watchlists.length > 0 && (
+              <div className={styles.watchlistActions}>
+                <select 
+                  value={selectedWatchlist} 
+                  onChange={(e) => setSelectedWatchlist(e.target.value)}
+                  disabled={watchlistLoading}
+                >
+                  {watchlists.map(wl => (
+                    <option key={wl._id} value={wl._id}>{wl.name}</option>
+                  ))}
+                </select>
+                <button onClick={handleAddToWatchlist} disabled={watchlistLoading}>
+                  {watchlistLoading ? 'Adding...' : 'Add to Watchlist'}
+                </button>
+              </div>
+            )}
+             {isAuthenticated && watchlists.length === 0 && (
+              <p className={styles.createWatchlistPrompt}>
+                Create a watchlist on your <a href="/watchlists">watchlists page</a> to add movies.
+              </p>
+            )}
           </div>
         </div>
       </div>
