@@ -17,7 +17,7 @@ const searchMovies = async (query) => {
 };
 
 const getRecommendations = async () => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -27,8 +27,14 @@ const getRecommendations = async () => {
   return response.data;
 };
 
+const getMovieDetails = async (id) => {
+  const response = await axios.get(`${API_URL}/${id}`);
+  return response.data;
+};
+
 export default {
   getMovies,
   searchMovies,
   getRecommendations,
+  getMovieDetails,
 };

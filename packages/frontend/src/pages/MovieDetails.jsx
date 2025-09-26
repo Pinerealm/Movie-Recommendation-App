@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import movieService from "../services/movieService";
 import userService from "../services/userService";
 import watchlistService from "../services/watchlistService";
 import styles from "./MovieDetails.module.css";
@@ -9,80 +10,74 @@ import ReviewSection from "../components/ReviewSection";
 const MovieDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [movie, setMovie] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [favoriteLoading, setFavoriteLoading] = useState(false);
-  const [watchlists, setWatchlists] = useState([]);
+  const queryClient = useQueryClient();
+
   const [selectedWatchlist, setSelectedWatchlist] = useState('');
-  const [watchlistLoading, setWatchlistLoading] = useState(false);
 
   const isAuthenticated = userService.isAuthenticated();
   const token = localStorage.getItem("token");
 
-  useEffect(() => {
-    const fetchMovieDetails = async () => {
-      try {
-        setLoading(true);
-        setError('');
-        
-        const { data } = await axios.get(`/api/movies/${id}`);
-        setMovie(data);
-        
-        if (isAuthenticated) {
-          try {
-            const favorites = await userService.getFavorites();
-            setIsFavorite(favorites.some(fav => fav.id === parseInt(id)));
+  const { data: movie, isLoading: movieLoading, error: movieError } = useQuery({
+    queryKey: ['movie', id],
+    queryFn: () => movieService.getMovieDetails(id),
+    enabled: !!id,
+  });
 
-            const userWatchlists = await watchlistService.getWatchlists(token);
-            setWatchlists(userWatchlists);
-            if (userWatchlists.length > 0) {
-              setSelectedWatchlist(userWatchlists[0]._id);
-            }
+  const { data: favorites, isLoading: favoritesLoading } = useQuery({
+    queryKey: ['favorites'],
+    queryFn: () => userService.getFavorites(),
+    enabled: isAuthenticated,
+  });
 
-          } catch (err) {
-            console.error('Error checking favorite status or fetching watchlists:', err);
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching movie details:", error);
-        setError('Failed to load movie details. Please try again later.');
-      } finally {
-        setLoading(false);
+  const { data: watchlists, isLoading: watchlistsLoading } = useQuery({
+    queryKey: ['watchlists'],
+    queryFn: () => watchlistService.getWatchlists(token),
+    enabled: isAuthenticated,
+    onSuccess: (data) => {
+      if (data.length > 0 && !selectedWatchlist) {
+        setSelectedWatchlist(data[0]._id);
       }
-    };
-
-    if (id) {
-      fetchMovieDetails();
     }
-  }, [id, isAuthenticated, token]);
+  });
 
-  const handleFavoriteToggle = async () => {
+  const isFavorite = favorites?.some(fav => fav.id === parseInt(id));
+
+  const favoriteMutation = useMutation({
+    mutationFn: (isFavorite) => 
+      isFavorite 
+        ? userService.removeFromFavorites(movie.id) 
+        : userService.addToFavorites(movie.id),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['favorites']);
+    },
+    onError: (error) => {
+      console.error('Error toggling favorite:', error);
+      alert('Failed to update favorites. Please try again.');
+    }
+  });
+
+  const addToWatchlistMutation = useMutation({
+    mutationFn: (watchlistId) => watchlistService.addMovieToWatchlist(watchlistId, movie.id, token),
+    onSuccess: () => {
+      alert(`Movie added to watchlist!`);
+    },
+    onError: (error) => {
+      console.error('Error adding to watchlist:', error);
+      alert('Failed to add movie to watchlist. Please try again.');
+    }
+  });
+
+
+  const handleFavoriteToggle = () => {
     if (!isAuthenticated) {
       alert('Please log in to add movies to your favorites');
       navigate('/login');
       return;
     }
-
-    setFavoriteLoading(true);
-    try {
-      if (isFavorite) {
-        await userService.removeFromFavorites(movie.id);
-        setIsFavorite(false);
-      } else {
-        await userService.addToFavorites(movie.id);
-        setIsFavorite(true);
-      }
-    } catch (error) {
-      console.error('Error toggling favorite:', error);
-      alert('Failed to update favorites. Please try again.');
-    } finally {
-      setFavoriteLoading(false);
-    }
+    favoriteMutation.mutate(isFavorite);
   };
 
-  const handleAddToWatchlist = async () => {
+  const handleAddToWatchlist = () => {
     if (!isAuthenticated) {
       alert('Please log in to add movies to a watchlist');
       navigate('/login');
@@ -92,21 +87,10 @@ const MovieDetails = () => {
       alert('Please select a watchlist.');
       return;
     }
-
-    setWatchlistLoading(true);
-    try {
-      await watchlistService.addMovieToWatchlist(selectedWatchlist, movie.id, token);
-      alert(`Movie added to watchlist!`);
-    } catch (error) {
-      console.error('Error adding to watchlist:', error);
-      const errorMessage = error.response?.data?.message || 'Failed to add to watchlist. Please try again.';
-      alert(errorMessage);
-    } finally {
-      setWatchlistLoading(false);
-    }
+    addToWatchlistMutation.mutate(selectedWatchlist);
   };
 
-  if (loading) {
+  if (movieLoading || favoritesLoading || watchlistsLoading) {
     return (
       <div className={styles.loadingContainer}>
         <div className={styles.loadingContent}>
@@ -117,12 +101,12 @@ const MovieDetails = () => {
     );
   }
 
-  if (error) {
+  if (movieError) {
     return (
       <div className={styles.errorContainer}>
         <div>
           <h2 className={styles.errorTitle}>Oops!</h2>
-          <p className={styles.errorText}>{error}</p>
+          <p className={styles.errorText}>{movieError.message}</p>
           <button
             onClick={() => navigate('/')}
             className={styles.errorButton}
@@ -179,30 +163,30 @@ const MovieDetails = () => {
           </div>
           <p className={styles.overview}>{overview}</p>
           <div className={styles.actions}>
-            <button onClick={handleFavoriteToggle} disabled={favoriteLoading}>
-              {favoriteLoading
+            <button onClick={handleFavoriteToggle} disabled={favoriteMutation.isPending}>
+              {favoriteMutation.isPending
                 ? "..."
                 : isFavorite
                 ? "★ Remove from Favorites"
                 : "☆ Add to Favorites"}
             </button>
-            {isAuthenticated && watchlists.length > 0 && (
+            {isAuthenticated && watchlists && watchlists.length > 0 && (
               <div className={styles.watchlistActions}>
                 <select 
                   value={selectedWatchlist} 
                   onChange={(e) => setSelectedWatchlist(e.target.value)}
-                  disabled={watchlistLoading}
+                  disabled={addToWatchlistMutation.isPending}
                 >
                   {watchlists.map(wl => (
                     <option key={wl._id} value={wl._id}>{wl.name}</option>
                   ))}
                 </select>
-                <button onClick={handleAddToWatchlist} disabled={watchlistLoading}>
-                  {watchlistLoading ? 'Adding...' : 'Add to Watchlist'}
+                <button onClick={handleAddToWatchlist} disabled={addToWatchlistMutation.isPending}>
+                  {addToWatchlistMutation.isPending ? 'Adding...' : 'Add to Watchlist'}
                 </button>
               </div>
             )}
-             {isAuthenticated && watchlists.length === 0 && (
+             {isAuthenticated && watchlists && watchlists.length === 0 && (
               <p className={styles.createWatchlistPrompt}>
                 Create a watchlist on your <a href="/watchlists">watchlists page</a> to add movies.
               </p>

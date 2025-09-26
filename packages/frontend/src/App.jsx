@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -11,7 +11,6 @@ import CreateWatchlist from "./pages/CreateWatchlist";
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import ProtectedRoute from './components/ProtectedRoute';
-import movieService from './services/movieService';
 import setAuthToken from './utils/setAuthToken';
 import Footer from './components/Footer';
 import styles from './App.module.css';
@@ -21,51 +20,17 @@ if (localStorage.token) {
 }
 
 function App() {
-  const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
   const [filters, setFilters] = useState({ sortBy: 'popularity.desc' });
+  const [searchQuery, setSearchQuery] = useState('');
 
-  // Shared function to fetch movies
-  const fetchMovies = async (newFilters) => {
-    try {
-      setLoading(true);
-      const movies = await movieService.getMovies(newFilters);
-      setMovies(movies);
-      setError(null);
-    } catch (err) {
-      setError('Failed to fetch movies. Please try again later.');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchMovies(filters);
-  }, [filters]);
 
   const handleFilterChange = (newFilterValues) => {
     setFilters((prevFilters) => ({ ...prevFilters, ...newFilterValues }));
+    setSearchQuery('');
   };
 
-  const handleSearch = async (query) => {
-    if (!query) {
-      fetchMovies(filters);
-      return;
-    }
-    try {
-      setLoading(true);
-      const searchResults = await movieService.searchMovies(query);
-      setMovies(searchResults);
-      setError(null);
-    } catch (err) {
-      setError('Failed to search movies. Please try again later.');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
+  const handleSearch = (query) => {
+    setSearchQuery(query);
   };
 
   return (
@@ -78,9 +43,8 @@ function App() {
             path="/"
             element={
               <Home
-                movies={movies}
-                loading={loading}
-                error={error}
+                filters={filters}
+                searchQuery={searchQuery}
                 onFilterChange={handleFilterChange}
               />
             }
