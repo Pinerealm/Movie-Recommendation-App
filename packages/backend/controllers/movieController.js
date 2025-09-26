@@ -9,8 +9,7 @@ import {
 // @route   GET /api/movies
 // @access  Public
 const getMovies = asyncHandler(async (req, res) => {
-  const { sortBy } = req.query;
-  const movies = await fetchMovies(sortBy);
+  const movies = await fetchMovies(req.query);
   res.json(movies);
 });
 
