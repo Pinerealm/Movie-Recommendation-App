@@ -1,0 +1,19 @@
+.recommendationsSection {
+    padding: 2rem;
+    background-color: #1a1a1a;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+}
+  
+.recommendationsSection h2 {
+    margin-bottom: 1.5rem;
+    color: #fff;
+    border-bottom: 2px solid #00b4d8;
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+  
+.errorText {
+    color: #ff4d4d;
+}
+  

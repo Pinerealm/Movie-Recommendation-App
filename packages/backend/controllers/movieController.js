@@ -3,7 +3,9 @@ import {
   fetchMovies,
   searchMovies,
   fetchMovieDetails,
+  fetchMovieRecommendations,
 } from "../services/tmdbService.js";
+import User from "../models/userModel.js";
 
 // @desc    Fetch movies with sorting
 // @route   GET /api/movies
@@ -35,4 +37,30 @@ const getMovieDetails = asyncHandler(async (req, res) => {
   res.json(movie);
 });
 
-export { getMovies, searchMoviesController, getMovieDetails };
+// @desc    Get personalized movie recommendations
+// @route   GET /api/movies/recommendations
+// @access  Private
+const getRecommendations = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (!user || user.favorites.length === 0) {
+    // If no favorites, return a default list of popular movies
+    const popularMovies = await fetchMovies({ sort_by: 'popularity.desc' });
+    return res.json(popularMovies);
+  }
+
+  // Fetch recommendations based on the user's last favorite movie
+  const lastFavoriteMovieId = user.favorites[user.favorites.length - 1];
+  
+  const recommendations = await fetchMovieRecommendations(lastFavoriteMovieId);
+
+  if (recommendations.length > 0) {
+    res.json(recommendations);
+  } else {
+    // Fallback to popular movies if no recommendations are found
+    const popularMovies = await fetchMovies({ sort_by: 'popularity.desc' });
+    res.json(popularMovies);
+  }
+});
+
+export { getMovies, searchMoviesController, getMovieDetails, getRecommendations };

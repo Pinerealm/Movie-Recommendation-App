@@ -16,7 +16,19 @@ const searchMovies = async (query) => {
   return response.data;
 };
 
+const getRecommendations = async () => {
+  const token = localStorage.getItem('token');
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.get(`${API_URL}/recommendations`, config);
+  return response.data;
+};
+
 export default {
   getMovies,
   searchMovies,
+  getRecommendations,
 };

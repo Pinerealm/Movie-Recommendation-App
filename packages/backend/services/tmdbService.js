@@ -62,4 +62,26 @@ const fetchMovieDetails = async (movieId) => {
   }
 };
 
-export { fetchMovies, searchMovies, fetchMovieDetails };
+const fetchMovieRecommendations = async (movieId) => {
+  try {
+    const response = await axios.get(
+      `${TMDB_API_URL}/movie/${movieId}/recommendations`,
+      {
+        params: {
+          api_key: process.env.TMDB_API_KEY,
+        },
+      }
+    );
+    return response.data.results;
+  } catch (error) {
+    console.error("Error fetching movie recommendations from TMDB:", error);
+    throw new Error("Error fetching movie recommendations from TMDB");
+  }
+};
+
+export {
+  fetchMovies,
+  searchMovies,
+  fetchMovieDetails,
+  fetchMovieRecommendations,
+};
