@@ -13,6 +13,8 @@ This is a full-stack movie recommendation application built with the MERN stack 
 
 ## Features
 
+- **Movie Reviews**: Users can write, edit, and delete reviews for movies
+- **Movie Recommendations**: Get personalized movie recommendations based on favorite genres
 - **User Authentication**: Complete user registration and login system with JWT authentication
 - **Movie Discovery**: Browse popular movies and search for specific titles using The Movie Database (TMDb) API
 - **Movie Details**: View comprehensive movie information including ratings, genres, release dates, and overview
@@ -90,6 +92,13 @@ pnpm dev
 
 ## Recent Updates
 
+### v3.0 - Movie Reviews and Recommendations
+
+- ✅ **Movie Review System**: Users can now write, edit, and delete their own movie reviews.
+- ✅ **Personalized Recommendations**: Get movie suggestions based on the genres of your favorite movies.
+- ✅ **Enhanced Movie Details Page**: Integrated review section and improved layout.
+- ✅ **New API Endpoints**: Added routes for managing reviews and fetching recommendations.
+
 ### v2.0 - User Profile & Favorites Management
 
 - ✅ **Complete User Profile System**: Dedicated profile page with user information display
@@ -109,34 +118,59 @@ pnpm dev
 
 ## API Endpoints
 
-All endpoints are prefixed with `/api`.
+Below is a summary of the available API endpoints. All endpoints are prefixed with `/api`.
 
-### User Endpoints (`/api/users`)
+### User Endpoints (`/users`)
 
-- `POST /register`: Register a new user.
-  - **Body**: `{ "name": "...", "email": "...", "password": "..." }`
-- `POST /login`: Authenticate a user and get a token.
-  - **Body**: `{ "email": "...", "password": "..." }`
-- `GET /profile`: Get the current user's profile (Protected).
-- `PUT /profile`: Update the current user's profile (Protected).
-  - **Body**: `{ "name": "...", "email": "...", "password": "..." }` (all fields optional)
+| Method | Endpoint                  | Protection | Description                               |
+| ------ | ------------------------- | ---------- | ----------------------------------------- |
+| POST   | `/register`               | No         | Register a new user                       |
+| POST   | `/login`                  | No         | Authenticate a user and get a token       |
+| GET    | `/profile`                | Yes        | Get the authenticated user's profile      |
+| PUT    | `/profile`                | Yes        | Update the authenticated user's profile   |
+| GET    | `/favorites`              | Yes        | Get the user's list of favorite movies    |
+| POST   | `/favorites`              | Yes        | Add a movie to the user's favorites       |
+| DELETE | `/favorites/:movieId`     | Yes        | Remove a movie from the user's favorites  |
 
-### Movie Endpoints (`/api/movies`)
+### Movie Endpoints (`/movies`)
 
-- `GET /popular`: Get a list of popular movies from TMDb.
-- `GET /search`: Search for movies by a query string.
-  - **Query Param**: `?query=...`
-- `GET /:id`: Get detailed information for a specific movie by its TMDb ID.
+| Method | Endpoint                  | Protection | Description                               |
+| ------ | ------------------------- | ---------- | ----------------------------------------- |
+| GET    | `/`                       | No         | Get a list of popular movies              |
+| GET    | `/search`                 | No         | Search for movies by a query title        |
+| GET    | `/recommendations`        | Yes        | Get movie recommendations for the user    |
+| GET    | `/:id`                    | No         | Get detailed information for a single movie|
 
-### Watchlist Endpoints (`/api/watchlists`)
+### Review Endpoints (`/movies/:movieId/reviews`)
 
-- `POST /`: Create a new watchlist (Protected).
-  - **Body**: `{ "name": "...", "description": "..." }`
-- `GET /`: Get all watchlists for the current user (Protected).
-- `GET /:id`: Get a specific watchlist by its ID (Protected).
-- `POST /:id/movies`: Add a movie to a specific watchlist (Protected).
-  - **Body**: `{ "movieId": "123" }`
-- `DELETE /:id/movies/:movieId`: Remove a movie from a specific watchlist (Protected).
+| Method | Endpoint                  | Protection | Description                               |
+| ------ | ------------------------- | ---------- | ----------------------------------------- |
+| POST   | `/`                       | Yes        | Add a new review for a movie              |
+| GET    | `/`                       | No         | Get all reviews for a specific movie      |
+| GET    | `/user`                   | Yes        | Get the user's review for a specific movie|
+| PUT    | `/:id`                    | Yes        | Update a specific review                  |
+| DELETE | `/:id`                    | Yes        | Delete a specific review                  |
+
+### Watchlist Endpoints (`/watchlists`)
+
+| Method | Endpoint                  | Protection | Description                               |
+| ------ | ------------------------- | ---------- | ----------------------------------------- |
+| POST   | `/`                       | Yes        | Create a new watchlist                    |
+| GET    | `/`                       | Yes        | Get all watchlists for the user           |
+| GET    | `/:id`                    | Yes        | Get a single watchlist by its ID          |
+| PUT    | `/:id`                    | Yes        | Update a watchlist's details              |
+| DELETE | `/:id`                    | Yes        | Delete a watchlist                        |
+| POST   | `/:id/movies`             | Yes        | Add a movie to a specific watchlist       |
+| DELETE | `/:id/movies`             | Yes        | Remove a movie from a specific watchlist  |
+
+### Review Endpoints (`/api/movies/:movieId/reviews`)
+
+- `POST /`: Add a review for a movie (Protected).
+  - **Body**: `{ "rating": 5, "comment": "Great movie!" }`
+- `GET /`: Get all reviews for a movie.
+- `GET /user`: Get the current user's review for a movie (Protected).
+- `PUT /:id`: Update a specific review (Protected).
+- `DELETE /:id`: Delete a specific review (Protected).
 
 ### Favorites Endpoints (`/api/users/favorites`)
 
