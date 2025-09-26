@@ -4,7 +4,7 @@ const notFound = (req, res, next) => {
   next(error);
 };
 
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, req, res) => {
   console.error(err.stack); // Log the error stack for debugging
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
   res.status(statusCode);
