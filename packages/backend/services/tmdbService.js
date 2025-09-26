@@ -4,30 +4,24 @@ const TMDB_API_URL = "https://api.themoviedb.org/3";
 
 const fetchMovies = async (filters) => {
   const {
-    sortBy = "popularity.desc",
+    sort_by = "popularity.desc",
     genre,
     year,
-    rating,
-    releaseDate,
+    "vote_average.gte": ratingGte,
+    "primary_release_date.gte": releaseDateGte,
   } = filters;
   try {
     const params = {
       api_key: process.env.TMDB_API_KEY,
-      sort_by: sortBy,
+      sort_by: sort_by,
       include_adult: false,
       page: 1,
     };
 
     if (genre) params.with_genres = genre;
     if (year) params.primary_release_year = year;
-    if (rating) {
-      params["vote_average.gte"] = rating.min;
-      params["vote_average.lte"] = rating.max;
-    }
-    if (releaseDate) {
-      params["primary_release_date.gte"] = releaseDate.min;
-      params["primary_release_date.lte"] = releaseDate.max;
-    }
+    if (ratingGte) params["vote_average.gte"] = ratingGte;
+    if (releaseDateGte) params["primary_release_date.gte"] = releaseDateGte;
 
     const response = await axios.get(`${TMDB_API_URL}/discover/movie`, {
       params,
