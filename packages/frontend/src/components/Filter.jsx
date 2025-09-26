@@ -1,18 +1,33 @@
+import { useState } from 'react';
 import styles from './Filter.module.css';
 
 const Filter = ({ onFilterChange }) => {
+  const [genre, setGenre] = useState('');
+  const [year, setYear] = useState('');
+
+  const handleApplyFilters = () => {
+    onFilterChange({ genre, year });
+  };
+
   return (
     <div className={styles.filterContainer}>
-      <label htmlFor="sort-by">Sort by: </label>
-      <select
-        id="sort-by"
-        onChange={(e) => onFilterChange(e.target.value)}
-        className={styles.filterSelect}
-      >
-        <option value="popularity.desc">Popularity</option>
-        <option value="vote_average.desc">Rating</option>
-        <option value="release_date.desc">Release Date</option>
-      </select>
+      <label htmlFor="genre">Genre: </label>
+      <input
+        type="text"
+        id="genre"
+        value={genre}
+        onChange={(e) => setGenre(e.target.value)}
+        placeholder="e.g., 28 for Action"
+      />
+      <label htmlFor="year">Year: </label>
+      <input
+        type="text"
+        id="year"
+        value={year}
+        onChange={(e) => setYear(e.target.value)}
+        placeholder="e.g., 2023"
+      />
+      <button onClick={handleApplyFilters}>Apply Filters</button>
     </div>
   );
 };

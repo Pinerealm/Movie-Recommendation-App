@@ -25,13 +25,13 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const [filter, setFilter] = useState('popularity.desc');
+  const [filters, setFilters] = useState({ sortBy: 'popularity.desc' });
 
   // Shared function to fetch movies
-  const fetchMovies = async (sortBy = 'popularity.desc') => {
+  const fetchMovies = async (newFilters) => {
     try {
       setLoading(true);
-      const movies = await movieService.getMovies(sortBy);
+      const movies = await movieService.getMovies(newFilters);
       setMovies(movies);
       setError(null);
     } catch (err) {
@@ -43,16 +43,16 @@ function App() {
   };
 
   useEffect(() => {
-    fetchMovies(filter);
-  }, [filter]);
+    fetchMovies(filters);
+  }, [filters]);
 
-  const handleFilterChange = (newFilter) => {
-    setFilter(newFilter);
+  const handleFilterChange = (newFilterValues) => {
+    setFilters((prevFilters) => ({ ...prevFilters, ...newFilterValues }));
   };
 
   const handleSearch = async (query) => {
     if (!query) {
-      fetchMovies(filter);
+      fetchMovies(filters);
       return;
     }
     try {

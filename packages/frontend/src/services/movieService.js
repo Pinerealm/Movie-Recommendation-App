@@ -2,9 +2,9 @@ import axios from "axios";
 
 const API_URL = "/api/movies";
 
-const getMovies = async (sortBy) => {
+const getMovies = async (filters) => {
   const response = await axios.get(API_URL, {
-    params: { sortBy },
+    params: filters,
   });
   return response.data;
 };
