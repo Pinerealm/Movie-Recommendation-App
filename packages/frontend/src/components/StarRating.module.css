@@ -1,0 +1,24 @@
+.starRating {
+  display: flex;
+  direction: ltr;
+}
+
+.star {
+  font-size: 2rem;
+  color: #ccc;
+  cursor: default;
+}
+
+.star.filled {
+  color: #f39c12;
+}
+
+.star.interactive {
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.star.interactive:hover,
+.star.interactive:hover ~ .star {
+  color: #f39c12;
+}
