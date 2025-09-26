@@ -18,6 +18,7 @@ This is a full-stack movie recommendation application built with the MERN stack 
 - **Movie Details**: View comprehensive movie information including ratings, genres, release dates, and overview
 - **Favorites Management**: Add and remove movies from your personal favorites list with real-time updates
 - **User Profile**: Dedicated profile page displaying user information and favorite movies collection
+- **Watchlist Management**: Create, view, and manage multiple movie watchlists
 - **Responsive Design**: Modern glassmorphism UI that works seamlessly on desktop and mobile devices
 - **Protected Routes**: Secure access to user-specific features with authentication checks
 
@@ -127,6 +128,16 @@ All endpoints are prefixed with `/api`.
   - **Query Param**: `?query=...`
 - `GET /:id`: Get detailed information for a specific movie by its TMDb ID.
 
+### Watchlist Endpoints (`/api/watchlists`)
+
+- `POST /`: Create a new watchlist (Protected).
+  - **Body**: `{ "name": "...", "description": "..." }`
+- `GET /`: Get all watchlists for the current user (Protected).
+- `GET /:id`: Get a specific watchlist by its ID (Protected).
+- `POST /:id/movies`: Add a movie to a specific watchlist (Protected).
+  - **Body**: `{ "movieId": "123" }`
+- `DELETE /:id/movies/:movieId`: Remove a movie from a specific watchlist (Protected).
+
 ### Favorites Endpoints (`/api/users/favorites`)
 
 - `GET /`: Get the user's favorite movies with full movie details (Protected).
@@ -140,6 +151,7 @@ All endpoints are prefixed with `/api`.
 Movie-Recommendation-App/
 ├── packages/
 │   ├── backend/                 # Express.js API server
+│   │   ├── config/             # Database configuration
 │   │   ├── controllers/         # Route handlers
 │   │   ├── middleware/          # Auth & error middleware
 │   │   ├── models/             # MongoDB schemas
@@ -159,7 +171,7 @@ Movie-Recommendation-App/
 
 ## Key Technologies
 
-- **Frontend**: React 18, React Router, Vite, CSS Modules
+- **Frontend**: React 19, React Router, Vite, CSS Modules
 - **Backend**: Node.js, Express.js, MongoDB, Mongoose
 - **Authentication**: JWT (JSON Web Tokens)
 - **External API**: The Movie Database (TMDb) API
