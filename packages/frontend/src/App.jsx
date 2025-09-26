@@ -9,7 +9,6 @@ import Watchlists from "./pages/Watchlists";
 import Watchlist from "./pages/Watchlist";
 import CreateWatchlist from "./pages/CreateWatchlist";
 import Header from './components/Header';
-import SearchBar from './components/SearchBar';
 import ProtectedRoute from './components/ProtectedRoute';
 import setAuthToken from './utils/setAuthToken';
 import Footer from './components/Footer';
@@ -35,8 +34,7 @@ function App() {
 
   return (
     <div className={styles.app}>
-      <Header />
-      <SearchBar onSearch={handleSearch} />
+      <Header onSearch={handleSearch} />
       <main>
         <Routes>
           <Route
