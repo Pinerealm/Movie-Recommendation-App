@@ -1,6 +1,5 @@
 import asyncHandler from "express-async-handler";
 import Review from "../models/reviewModel.js";
-import Movie from "../models/movieModel.js"; // This might not be needed if we only use movieId
 
 // @desc    Add a new review
 // @route   POST /api/movies/:movieId/reviews
