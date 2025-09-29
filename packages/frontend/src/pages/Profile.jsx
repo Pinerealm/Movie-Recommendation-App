@@ -157,28 +157,12 @@ const Profile = () => {
           ) : (
             <div className={styles.favoritesGrid}>
               {favorites.map((movie) => (
-                <div key={movie.id} style={{ position: 'relative' }}>
+                <div key={movie.id} className={styles.favoriteItem}>
                   <MovieCard movie={movie} />
                   <button
                     onClick={() => handleRemoveFromFavorites(movie.id)}
-                    style={{
-                      position: 'absolute',
-                      top: '10px',
-                      right: '10px',
-                      background: 'rgba(255, 107, 138, 0.9)',
-                      border: 'none',
-                      borderRadius: '50%',
-                      width: '30px',
-                      height: '30px',
-                      color: 'white',
-                      cursor: 'pointer',
-                      fontSize: '16px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      transition: 'all 0.3s ease',
-                      zIndex: 10
-                    }}
+                    className={styles.removeFavoriteButton}
+                    aria-label="Remove from favorites"
                     title="Remove from favorites"
                   >
                     ×
