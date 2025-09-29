@@ -40,20 +40,66 @@ const Watchlist = () => {
   }, [id]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className={styles.watchlistContainer}>
+        <div className={styles.content}>
+          <div className={`${styles.stateCard} ${styles.loadingState}`}>
+            <div className={styles.loadingSpinner} />
+            <p>Loading your watchlist...</p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
-  if (error) {
-    return <div>Error: {error}</div>;
+  if (error || !watchlist) {
+    return (
+      <div className={styles.watchlistContainer}>
+        <div className={styles.content}>
+          <div className={`${styles.stateCard} ${styles.errorState}`}>
+            <h2>We couldn&apos;t load this watchlist</h2>
+            <p>{error || "Please refresh the page and try again."}</p>
+          </div>
+        </div>
+      </div>
+    );
   }
+
+  const updatedLabel = watchlist.updatedAt
+    ? new Date(watchlist.updatedAt).toLocaleDateString(undefined, {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      })
+    : undefined;
 
   return (
     <div className={styles.watchlistContainer}>
-      <h1>{watchlist.name}</h1>
-      <div className={styles.moviesGrid}>
-        {movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
+      <div className={styles.content}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>{watchlist.name}</h1>
+          <div className={styles.meta}>
+            <span className={styles.metaBadge}>
+              {movies.length} {movies.length === 1 ? "movie" : "movies"}
+            </span>
+            {updatedLabel && (
+              <span className={styles.metaBadge}>Updated {updatedLabel}</span>
+            )}
+          </div>
+        </div>
+
+        {movies.length === 0 ? (
+          <div className={`${styles.stateCard} ${styles.emptyState}`}>
+            <h2>This watchlist is empty</h2>
+            <p>Add movies from the browse pages to start building it out.</p>
+          </div>
+        ) : (
+          <div className={styles.moviesGrid}>
+            {movies.map((movie) => (
+              <MovieCard key={movie.id} movie={movie} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,12 +1,40 @@
 .watchlistCard {
-  border: 1px solid #ccc;
-  padding: 1rem;
-  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: clamp(1.4rem, 3vw, 1.75rem);
+  border-radius: 22px;
   text-decoration: none;
-  color: inherit;
-  transition: box-shadow 0.3s;
+  background: rgba(12, 19, 33, 0.82);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  color: rgba(226, 232, 240, 0.88);
+  box-shadow:
+    0 24px 40px rgba(6, 11, 20, 0.42),
+    0 0 0 1px rgba(148, 163, 184, 0.16) inset;
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .watchlistCard:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+  box-shadow:
+    0 30px 54px rgba(6, 11, 20, 0.5),
+    0 0 0 1px rgba(148, 163, 184, 0.24) inset;
+  border-color: rgba(148, 163, 184, 0.3);
+}
+
+.watchlistCard h3 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: rgba(248, 250, 252, 0.94);
+}
+
+.watchlistCard p {
+  margin: 0;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(203, 213, 225, 0.72);
 }

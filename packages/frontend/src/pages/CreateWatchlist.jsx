@@ -27,24 +27,33 @@ const CreateWatchlist = () => {
   };
 
   return (
-    <div className={styles.createWatchlistContainer}>
-      <h1>Create New Watchlist</h1>
-      <form onSubmit={handleSubmit}>
-        <div className={styles.formGroup}>
-          <label htmlFor="name">Watchlist Name</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-        {error && <p className={styles.error}>{error}</p>}
-        <button type="submit" disabled={loading}>
-          {loading ? "Creating..." : "Create"}
-        </button>
-      </form>
+    <div className={styles.pageContainer}>
+      <div className={styles.card}>
+        <h1 className={styles.title}>Create New Watchlist</h1>
+        <p className={styles.helperText}>
+          Give your collection a name to start saving movies for later.
+        </p>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.formGroup}>
+            <label htmlFor="name" className={styles.label}>
+              Watchlist Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="e.g. Weekend Picks"
+              className={styles.input}
+              required
+            />
+          </div>
+          {error && <p className={styles.error}>{error}</p>}
+          <button type="submit" className={styles.submitButton} disabled={loading}>
+            {loading ? "Creating..." : "Create Watchlist"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
