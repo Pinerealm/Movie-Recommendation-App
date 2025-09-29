@@ -1,12 +1,10 @@
-/* Register Page Modern Styling with Glassmorphism and Gradient Theme */
-
 .container {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 24px;
+  background: radial-gradient(circle at 18% 18%, rgba(30, 58, 95, 0.45) 0%, rgba(15, 23, 42, 0.92) 45%, #0b1120 100%);
   position: relative;
   overflow: hidden;
 }
@@ -14,15 +12,12 @@
 .container::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 107, 107, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(78, 205, 196, 0.3) 0%, transparent 50%);
-  animation: backgroundMove 20s ease-in-out infinite;
+  inset: 0;
+  background:
+    radial-gradient(circle at 22% 82%, rgba(59, 130, 246, 0.2) 0%, transparent 58%),
+    radial-gradient(circle at 76% 24%, rgba(249, 115, 96, 0.24) 0%, transparent 55%),
+    radial-gradient(circle at 44% 34%, rgba(14, 116, 144, 0.2) 0%, transparent 62%);
+  animation: backgroundMove 24s ease-in-out infinite;
 }
 
 @keyframes backgroundMove {
@@ -36,29 +31,30 @@
   }
 }
 
+
 .formCard {
-  background: rgba(255, 255, 255, 0.1);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  padding: 40px;
+  background: rgba(12, 19, 33, 0.8);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  backdrop-filter: blur(22px) saturate(160%);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 24px;
+  padding: clamp(2.25rem, 4vw, 2.85rem);
   width: 100%;
   max-width: 440px;
-  box-shadow: 
-    0 25px 45px rgba(0, 0, 0, 0.1),
-    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  box-shadow:
+    0 30px 52px rgba(6, 11, 20, 0.42),
+    0 0 0 1px rgba(148, 163, 184, 0.16) inset;
   position: relative;
   z-index: 1;
   animation: cardSlideIn 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .formCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 
-    0 35px 55px rgba(0, 0, 0, 0.15),
-    0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+  transform: translateY(-6px);
+  box-shadow:
+    0 34px 62px rgba(6, 11, 20, 0.5),
+    0 0 0 1px rgba(148, 163, 184, 0.2) inset;
 }
 
 @keyframes cardSlideIn {
@@ -74,16 +70,16 @@
 
 .title {
   text-align: center;
-  margin-bottom: 35px;
-  color: rgba(255, 255, 255, 0.95);
-  font-size: 2.4rem;
+  margin-bottom: clamp(2rem, 4vw, 2.4rem);
+  color: rgba(248, 250, 252, 0.95);
+  font-size: clamp(2.1rem, 4vw, 2.5rem);
   font-weight: 700;
-  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 50%, #f093fb 100%);
+  background: linear-gradient(135deg, #f97360 0%, #fb7185 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  animation: titleGlow 3s ease-in-out infinite alternate;
+  text-shadow: 0 6px 16px rgba(6, 11, 20, 0.45);
+  animation: titleGlow 4s ease-in-out infinite alternate;
 }
 
 @keyframes titleGlow {
@@ -104,31 +100,30 @@
 
 .input {
   width: 100%;
-  padding: 16px 20px 16px 20px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  color: rgba(255, 255, 255, 0.95);
+  padding: 16px 20px;
+  background: rgba(13, 22, 38, 0.86);
+  border: 1px solid rgba(71, 85, 105, 0.55);
+  border-radius: 14px;
+  color: #f8fafc;
   font-size: 16px;
-  transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
   box-sizing: border-box;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   outline: none;
 }
 
 .input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(203, 213, 225, 0.55);
   transition: all 0.3s ease;
 }
 
 .input:focus {
-  border-color: rgba(67, 233, 123, 0.6);
-  background: rgba(255, 255, 255, 0.12);
-  box-shadow: 
-    0 0 0 3px rgba(67, 233, 123, 0.2),
-    0 8px 32px rgba(67, 233, 123, 0.15);
-  transform: translateY(-2px);
+  border-color: rgba(249, 115, 96, 0.7);
+  box-shadow:
+    0 0 0 3px rgba(249, 115, 96, 0.24),
+    0 12px 28px rgba(6, 11, 20, 0.35);
+  transform: translateY(-1px);
 }
 
 .input:focus::placeholder {
@@ -141,15 +136,15 @@
   left: 20px;
   top: 50%;
   transform: translateY(-50%);
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(203, 213, 225, 0.8);
   font-size: 16px;
   transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
   pointer-events: none;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-  padding: 2px 8px;
-  border-radius: 6px;
-  -webkit-backdrop-filter: blur(5px);
-  backdrop-filter: blur(5px);
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.65));
+  padding: 2px 10px;
+  border-radius: 8px;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
 }
 
 .input:focus + .floatingLabel,
@@ -157,8 +152,8 @@
   top: -8px;
   transform: translateY(0);
   font-size: 12px;
-  color: rgba(67, 233, 123, 0.9);
-  background: linear-gradient(135deg, rgba(67, 233, 123, 0.2), rgba(67, 233, 123, 0.1));
+  color: rgba(249, 115, 96, 0.85);
+  background: linear-gradient(135deg, rgba(249, 115, 96, 0.22), rgba(249, 115, 96, 0.12));
 }
 
 /* Password validation specific styles */
@@ -167,45 +162,45 @@
 }
 
 .passwordInput.valid .input {
-  border-color: rgba(67, 233, 123, 0.6);
+  border-color: rgba(56, 189, 248, 0.7);
 }
 
 .passwordInput.invalid .input {
-  border-color: rgba(255, 107, 138, 0.6);
+  border-color: rgba(249, 115, 96, 0.7);
 }
 
 .passwordMatch {
-  border-color: rgba(67, 233, 123, 0.6) !important;
-  box-shadow: 
-    0 0 0 2px rgba(67, 233, 123, 0.2),
-    0 4px 16px rgba(67, 233, 123, 0.1);
+  border-color: rgba(56, 189, 248, 0.7) !important;
+  box-shadow:
+    0 0 0 2px rgba(56, 189, 248, 0.22),
+    0 4px 18px rgba(56, 189, 248, 0.16);
 }
 
 .passwordMismatch {
-  border-color: rgba(255, 107, 138, 0.6) !important;
-  box-shadow: 
-    0 0 0 2px rgba(255, 107, 138, 0.2),
-    0 4px 16px rgba(255, 107, 138, 0.1);
+  border-color: rgba(249, 115, 96, 0.7) !important;
+  box-shadow:
+    0 0 0 2px rgba(249, 115, 96, 0.22),
+    0 4px 18px rgba(249, 115, 96, 0.16);
 }
 
 .submitButton {
   padding: 18px 24px;
-  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 50%, #f093fb 100%);
+  background: linear-gradient(135deg, #f97360 0%, #fb7185 100%);
   background-size: 200% 200%;
   border: none;
-  border-radius: 12px;
-  color: white;
-  font-size: 18px;
+  border-radius: 14px;
+  color: #fff;
+  font-size: 17px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  transition: background-position 0.4s ease, transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
   overflow: hidden;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  box-shadow: 
-    0 8px 32px rgba(67, 233, 123, 0.3),
-    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  letter-spacing: 0.12em;
+  box-shadow:
+    0 16px 36px rgba(249, 115, 96, 0.35),
+    0 0 0 1px rgba(249, 115, 96, 0.25) inset;
   margin-top: 10px;
 }
 
@@ -227,9 +222,9 @@
 .submitButton:hover {
   background-position: 100% 0;
   transform: translateY(-3px);
-  box-shadow: 
-    0 15px 45px rgba(67, 233, 123, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+  box-shadow:
+    0 24px 46px rgba(249, 115, 96, 0.4),
+    0 0 0 1px rgba(249, 115, 96, 0.35) inset;
 }
 
 .submitButton:hover::before {
@@ -248,13 +243,13 @@
 }
 
 .errorMessage {
-  color: #ff6b8a;
+  color: #fb7185;
   font-size: 13px;
   margin-top: 6px;
   padding: 6px 10px;
-  background: rgba(255, 107, 138, 0.1);
-  border: 1px solid rgba(255, 107, 138, 0.2);
-  border-radius: 8px;
+  background: rgba(251, 113, 133, 0.14);
+  border: 1px solid rgba(251, 113, 133, 0.3);
+  border-radius: 10px;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   animation: errorSlideIn 0.3s ease;
@@ -272,13 +267,13 @@
 }
 
 .successMessage {
-  color: #4ecdc4;
+  color: #38bdf8;
   font-size: 13px;
   margin-top: 6px;
   padding: 6px 10px;
-  background: rgba(78, 205, 196, 0.1);
-  border: 1px solid rgba(78, 205, 196, 0.2);
-  border-radius: 8px;
+  background: rgba(56, 189, 248, 0.14);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 10px;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   animation: successSlideIn 0.3s ease;
@@ -298,7 +293,7 @@
 .passwordStrengthIndicator {
   margin-top: 8px;
   padding: 8px 12px;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 12px;
   transition: all 0.3s ease;
   -webkit-backdrop-filter: blur(10px);
@@ -306,21 +301,21 @@
 }
 
 .passwordStrengthIndicator.weak {
-  background: rgba(255, 107, 138, 0.1);
-  border: 1px solid rgba(255, 107, 138, 0.2);
-  color: #ff6b8a;
+  background: rgba(251, 113, 133, 0.12);
+  border: 1px solid rgba(251, 113, 133, 0.28);
+  color: #fb7185;
 }
 
 .passwordStrengthIndicator.medium {
-  background: rgba(255, 193, 7, 0.1);
-  border: 1px solid rgba(255, 193, 7, 0.2);
-  color: #ffc107;
+  background: rgba(234, 179, 8, 0.12);
+  border: 1px solid rgba(234, 179, 8, 0.28);
+  color: #fbbf24;
 }
 
 .passwordStrengthIndicator.strong {
-  background: rgba(67, 233, 123, 0.1);
-  border: 1px solid rgba(67, 233, 123, 0.2);
-  color: #43e97b;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  color: #38bdf8;
 }
 
 .loadingSpinner {
@@ -343,9 +338,9 @@
 .validationList {
   margin-top: 8px;
   padding: 8px 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  background: rgba(13, 22, 38, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 12px;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   font-size: 12px;
@@ -359,11 +354,11 @@
 }
 
 .validationItem.valid {
-  color: #43e97b;
+  color: #38bdf8;
 }
 
 .validationItem.invalid {
-  color: #ff6b8a;
+  color: #fb7185;
 }
 
 .validationIcon {
