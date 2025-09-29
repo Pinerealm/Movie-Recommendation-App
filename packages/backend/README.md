@@ -53,6 +53,41 @@ pnpm dev
 
 The server will start on the port specified in your `.env` file (e.g., `http://localhost:5001`).
 
+To run **only** the backend service, use:
+
+```bash
+pnpm --filter backend dev
+```
+
+For a production-like run that skips nodemon, execute:
+
+```bash
+pnpm --filter backend start
+```
+
+## Scripts
+
+| Command | Description |
+| --- | --- |
+| `pnpm --filter backend dev` | Starts the Express server with nodemon for hot reloads. |
+| `pnpm --filter backend start` | Runs the Express server with Node in production mode. |
+| `pnpm --filter backend lint` | Lints the backend source with ESLint. |
+
+## Environment Reference
+
+| Variable | Required | Description |
+| --- | --- | --- |
+| `MONGO_URI` | ✅ | Connection string for your MongoDB deployment. |
+| `JWT_SECRET` | ✅ | Secret used to sign and verify JSON Web Tokens. |
+| `PORT` | ⚙️ | Port the Express app listens on (defaults to `5001`). |
+| `TMDB_API_KEY` | ✅ | API key for authenticating requests to TMDb. |
+
+## Development Tips
+
+- `packages/backend/services/tmdbService.js` centralizes all calls to TMDb. If you need new external data, add a helper here and import it in a controller.
+- When adjusting MongoDB schemas, review corresponding controllers to ensure new fields are validated and returned in responses.
+- Pair controller changes with unit tests or manual Postman suites that exercise the `/api/users`, `/api/movies`, `/api/watchlists`, and `/api/reviews` routes.
+
 ## Project Structure
 
 - `controllers`: Contains the logic for handling incoming requests (e.g., `userController.js`, `movieController.js`).

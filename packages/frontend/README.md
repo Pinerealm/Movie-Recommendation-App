@@ -41,6 +41,37 @@ pnpm dev
 
 The Vite development server will start, typically on `http://localhost:5173`. The frontend is configured to proxy API requests from `/api` to the backend server, which is expected to be running on `http://localhost:5001`.
 
+To work on the frontend in isolation you can run:
+
+```bash
+pnpm --filter frontend dev
+```
+
+When previewing the production build locally, use:
+
+```bash
+pnpm --filter frontend preview
+```
+
+## Scripts
+
+| Command | Description |
+| --- | --- |
+| `pnpm --filter frontend dev` | Launches the Vite dev server with hot module replacement. |
+| `pnpm --filter frontend build` | Generates an optimized production bundle. |
+| `pnpm --filter frontend preview` | Serves the production bundle locally for validation. |
+| `pnpm --filter frontend lint` | Runs ESLint across the frontend source. |
+
+## Environment Variables
+
+The frontend currently relies on the backend for TMDb communication and does not require Vite environment variables. If you add client-side configuration later, create a `.env` file in `packages/frontend` using the `VITE_` prefix (e.g., `VITE_API_BASE_URL`).
+
+## Development Tips
+
+- React Query caches API responses—use the React Query Devtools (already included) by toggling the floating widget in development.
+- `src/services` centralizes API calls; prefer updating these helpers rather than calling Axios directly inside components.
+- For protected routes, ensure `setAuthToken` is invoked (handled in `App.jsx`) whenever the JWT in `localStorage` changes.
+
 ## Project Structure
 
 - `src/components`: Contains reusable UI components like `Header`, `MovieCard`, and `SearchBar`.
