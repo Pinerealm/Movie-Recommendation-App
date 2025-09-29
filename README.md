@@ -5,9 +5,13 @@ This is a full-stack movie recommendation application built with the MERN stack 
 ## Table of Contents
 
 - [Features](#features)
+- [Documentation](#documentation)
 - [Getting Started](#getting-started)
-- [Usage](#usage)
-- [API Endpoints](#api-endpoints)
+- [Quick Start](#quick-start)
+- [Scripts & Tooling](#scripts--tooling)
+- [Project Structure](#project-structure)
+- [Key Technologies](#key-technologies)
+- [Architecture Overview](#architecture-overview)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -23,6 +27,12 @@ This is a full-stack movie recommendation application built with the MERN stack 
 - **Watchlist Management**: Create, view, and manage multiple movie watchlists
 - **Responsive Design**: Modern glassmorphism UI that works seamlessly on desktop and mobile devices
 - **Protected Routes**: Secure access to user-specific features with authentication checks
+
+## Documentation
+
+- [API Reference](docs/api-reference.md)
+- [Troubleshooting Guide](docs/troubleshooting.md)
+- [Changelog](CHANGELOG.md)
 
 ## Getting Started
 
@@ -44,11 +54,11 @@ This is a full-stack movie recommendation application built with the MERN stack 
 
 2. **Install dependencies from the root directory:**
 
-   This command installs dependencies for both the frontend and backend workspaces.
-
    ```bash
    pnpm install
    ```
+
+   This command installs dependencies for both the frontend and backend workspaces.
 
 3. **Set up environment variables:**
 
@@ -61,123 +71,49 @@ This is a full-stack movie recommendation application built with the MERN stack 
    TMDB_API_KEY=<your_tmdb_api_key>
    ```
 
-## Usage
+## Quick Start
 
 ### Development
 
-To run both the frontend and backend servers concurrently in development mode, run the following command from the root directory:
+Run both the frontend and backend servers concurrently from the repository root:
 
 ```bash
 pnpm dev
 ```
 
-- The backend server (with nodemon) will start on `http://localhost:5001`.
-- The frontend Vite dev server will start on a different port (e.g., `http://localhost:5173`) and will proxy API requests from `/api` to the backend.
+- Backend (nodemon) listens on `http://localhost:5001`.
+- Frontend (Vite) serves on `http://localhost:5173` and proxies `/api` to the backend.
 
-### Production
+### Production Preview
 
-1. **Build the frontend:**
+1. Build the frontend bundle:
 
    ```bash
    pnpm build
    ```
 
-2. **Start the backend server:**
+2. Start the backend in production mode:
 
    ```bash
    pnpm start
    ```
 
-   The backend will serve the application.
+   The backend serves the static assets from the built frontend.
 
-## Recent Updates
+## Scripts & Tooling
 
-### v3.0 - Movie Reviews and Recommendations
+| Command | Description |
+| --- | --- |
+| `pnpm dev` | Starts the Vite dev server and Express backend together with live reload. |
+| `pnpm --filter frontend dev` | Runs only the frontend in development mode. |
+| `pnpm --filter backend dev` | Runs only the backend with nodemon. |
+| `pnpm build` | Builds the production-ready frontend bundle. |
+| `pnpm start` | Starts the backend in production mode (expects the frontend bundle to be pre-built). |
+| `pnpm --filter frontend preview` | Serves the built frontend locally for smoke testing. |
+| `pnpm --filter frontend lint` | Lints the frontend source. |
+| `pnpm --filter backend lint` | Lints the backend source. |
 
-- ✅ **Movie Review System**: Users can now write, edit, and delete their own movie reviews.
-- ✅ **Personalized Recommendations**: Get movie suggestions based on the genres of your favorite movies.
-- ✅ **Enhanced Movie Details Page**: Integrated review section and improved layout.
-- ✅ **New API Endpoints**: Added routes for managing reviews and fetching recommendations.
-
-### v2.0 - User Profile & Favorites Management
-
-- ✅ **Complete User Profile System**: Dedicated profile page with user information display
-- ✅ **Advanced Favorites Management**: Real-time add/remove favorites with visual feedback
-- ✅ **Enhanced Movie Cards**: Interactive favorite buttons with loading states and animations
-- ✅ **Improved Movie Details**: Modern UI with comprehensive movie information and favorites integration
-- ✅ **Protected Routes**: Secure access to user-specific features
-- ✅ **Responsive Design**: Glassmorphism UI theme that works on all devices
-- ✅ **Code Optimization**: Eliminated redundant code and improved maintainability
-
-### Development Improvements
-
-- Consolidated duplicate API call patterns
-- Enhanced error handling consistency
-- Improved authentication state management
-- Modern CSS with glassmorphism design patterns
-
-## API Endpoints
-
-Below is a summary of the available API endpoints. All endpoints are prefixed with `/api`.
-
-### User Endpoints (`/users`)
-
-| Method | Endpoint                  | Protection | Description                               |
-| ------ | ------------------------- | ---------- | ----------------------------------------- |
-| POST   | `/register`               | No         | Register a new user                       |
-| POST   | `/login`                  | No         | Authenticate a user and get a token       |
-| GET    | `/profile`                | Yes        | Get the authenticated user's profile      |
-| PUT    | `/profile`                | Yes        | Update the authenticated user's profile   |
-| GET    | `/favorites`              | Yes        | Get the user's list of favorite movies    |
-| POST   | `/favorites`              | Yes        | Add a movie to the user's favorites       |
-| DELETE | `/favorites/:movieId`     | Yes        | Remove a movie from the user's favorites  |
-
-### Movie Endpoints (`/movies`)
-
-| Method | Endpoint                  | Protection | Description                               |
-| ------ | ------------------------- | ---------- | ----------------------------------------- |
-| GET    | `/`                       | No         | Get a list of popular movies              |
-| GET    | `/search`                 | No         | Search for movies by a query title        |
-| GET    | `/recommendations`        | Yes        | Get movie recommendations for the user    |
-| GET    | `/:id`                    | No         | Get detailed information for a single movie|
-
-### Review Endpoints (`/movies/:movieId/reviews`)
-
-| Method | Endpoint                  | Protection | Description                               |
-| ------ | ------------------------- | ---------- | ----------------------------------------- |
-| POST   | `/`                       | Yes        | Add a new review for a movie              |
-| GET    | `/`                       | No         | Get all reviews for a specific movie      |
-| GET    | `/user`                   | Yes        | Get the user's review for a specific movie|
-| PUT    | `/:id`                    | Yes        | Update a specific review                  |
-| DELETE | `/:id`                    | Yes        | Delete a specific review                  |
-
-### Watchlist Endpoints (`/watchlists`)
-
-| Method | Endpoint                  | Protection | Description                               |
-| ------ | ------------------------- | ---------- | ----------------------------------------- |
-| POST   | `/`                       | Yes        | Create a new watchlist                    |
-| GET    | `/`                       | Yes        | Get all watchlists for the user           |
-| GET    | `/:id`                    | Yes        | Get a single watchlist by its ID          |
-| PUT    | `/:id`                    | Yes        | Update a watchlist's details              |
-| DELETE | `/:id`                    | Yes        | Delete a watchlist                        |
-| POST   | `/:id/movies`             | Yes        | Add a movie to a specific watchlist       |
-| DELETE | `/:id/movies`             | Yes        | Remove a movie from a specific watchlist  |
-
-### Review Endpoints (`/api/movies/:movieId/reviews`)
-
-- `POST /`: Add a review for a movie (Protected).
-  - **Body**: `{ "rating": 5, "comment": "Great movie!" }`
-- `GET /`: Get all reviews for a movie.
-- `GET /user`: Get the current user's review for a movie (Protected).
-- `PUT /:id`: Update a specific review (Protected).
-- `DELETE /:id`: Delete a specific review (Protected).
-
-### Favorites Endpoints (`/api/users/favorites`)
-
-- `GET /`: Get the user's favorite movies with full movie details (Protected).
-- `POST /`: Add a movie to favorites (Protected).
-  - **Body**: `{ "movieId": "123" }` (TMDb movie ID as number)
-- `DELETE /:movieId`: Remove a movie from favorites by its TMDb ID (Protected).
+Consider adding these lint commands to CI to keep code quality consistent across the monorepo.
 
 ## Project Structure
 
@@ -212,32 +148,12 @@ Movie-Recommendation-App/
 - **Package Manager**: pnpm with workspace support
 - **Development**: Nodemon, Concurrently for dev workflow
 
-## Troubleshooting
+## Architecture Overview
 
-### Common Issues
-
-1. **"Failed to connect to MongoDB"**
-   - Ensure MongoDB is running locally or your Atlas connection string is correct
-   - Check that your `MONGO_URI` in the `.env` file is properly formatted
-
-2. **"API requests failing in development"**
-   - Verify the backend is running on port 5001
-   - Check that Vite proxy configuration in `vite.config.js` points to `http://localhost:5001`
-
-3. **"Authentication not working"**
-   - Make sure `JWT_SECRET` is set in your `.env` file
-   - Check browser developer tools for token-related errors
-
-4. **"TMDb API errors"**
-   - Verify your `TMDB_API_KEY` is valid and active
-   - Check the TMDb API documentation for rate limits
-
-### Development Tips
-
-- Use `pnpm dev` from the root directory to run both frontend and backend simultaneously
-- Backend runs on port 5001, frontend on port 5173 (or next available)
-- Check browser console and terminal output for detailed error messages
-- MongoDB connection logs appear in the backend terminal
+- **Frontend (`packages/frontend`)**: A Vite-powered React SPA that handles routing, state, and user interactions. It relies on React Query for data fetching and caching.
+- **Backend (`packages/backend`)**: An Express server that exposes REST endpoints, orchestrates TMDb API calls via the `tmdbService`, and persists user-generated data in MongoDB.
+- **Shared Contract**: API calls flow through Axios on the client, hitting `/api/*` routes that the Vite dev server proxies to the backend. Authentication uses JWTs stored in `localStorage` and injected via `setAuthToken`.
+- **Data Sources**: Movie metadata is sourced live from TMDb; user-specific artifacts (profiles, favorites, watchlists, reviews) are persisted in MongoDB collections.
 
 ## Contributing
 
