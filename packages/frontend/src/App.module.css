@@ -2,66 +2,71 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: radial-gradient(circle at 12% 18%, rgba(30, 58, 95, 0.45) 0%, rgba(15, 23, 42, 0.85) 45%, #0b1120 100%);
 }
 
 .app main {
   flex: 1;
-  padding: 2rem;
+  padding: clamp(1.5rem, 2vw, 2.75rem);
+  display: flex;
+  justify-content: center;
 }
 
 .homepage {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 25%, #4facfe 50%, #00f2fe 75%, #43e97b 100%);
-  background-size: 400% 400%;
-  animation: gradientShift 10s ease infinite;
-  border-radius: 20px;
-  padding: 2rem;
-  margin: 1rem 0;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  width: 100%;
+  max-width: 1180px;
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 24px;
+  padding: clamp(1.75rem, 2.5vw, 2.75rem);
+  margin: 1rem auto;
+  box-shadow: 0 24px 40px rgba(6, 12, 24, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
 }
 
 .moviesContainer {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: 1.75rem;
   justify-content: center;
-  padding: 2rem;
-  background: rgba(255, 255, 255, 0.1);
+  padding: clamp(1.25rem, 2vw, 2rem);
+  background: rgba(9, 14, 24, 0.75);
+  border-radius: 18px;
+  border: 1px solid rgba(71, 85, 105, 0.2);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
-  border-radius: 15px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .loadingText {
   text-align: center;
-  font-size: 1.5rem;
-  color: #fff;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  animation: pulse 2s ease-in-out infinite;
-  margin: 2rem 0;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 0.7; }
-  50% { opacity: 1; }
+  font-size: 1.25rem;
+  color: #e2e8f0;
+  margin: 2rem 0 0.75rem;
+  letter-spacing: 0.03em;
 }
 
 .errorText {
   text-align: center;
-  color: #ff6b6b;
-  background: rgba(255, 107, 107, 0.1);
-  border: 2px solid #ff6b6b;
-  border-radius: 10px;
-  padding: 1rem;
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin: 1rem 0;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  color: #f97360;
+  background: rgba(249, 115, 96, 0.12);
+  border: 1px solid rgba(249, 115, 96, 0.3);
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 1.5rem 0;
+  box-shadow: 0 12px 24px rgba(249, 115, 96, 0.18);
+}
+
+@media (max-width: 768px) {
+  .homepage {
+    margin: 0.5rem auto 1.5rem;
+    border-radius: 18px;
+  }
+
+  .moviesContainer {
+    gap: 1.25rem;
+    padding: 1rem;
+  }
 }

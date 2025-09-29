@@ -1,15 +1,93 @@
 .filterContainer {
-  margin-bottom: 20px;
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 0 20px;
+  flex-wrap: wrap;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  padding: clamp(1rem, 2vw, 1.75rem);
+  margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+  background: rgba(10, 16, 28, 0.78);
+  border-radius: 20px;
+  border: 1px solid rgba(71, 85, 105, 0.28);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
 }
 
-.filterSelect {
-  padding: 8px 12px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  font-size: 1rem;
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  flex: 1 1 180px;
+  min-width: clamp(150px, 30vw, 220px);
+}
+
+.field label {
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  color: rgba(226, 232, 240, 0.8);
+  text-transform: uppercase;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  border: 1px solid rgba(71, 85, 105, 0.55);
+  border-radius: 12px;
+  padding: 0.65rem 0.85rem;
+  background: rgba(15, 23, 42, 0.8);
+  color: #f1f5f9;
+  font-size: 0.95rem;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: rgba(249, 115, 96, 0.6);
+  box-shadow: 0 0 0 2px rgba(249, 115, 96, 0.25);
+}
+
+.field input::placeholder {
+  color: rgba(148, 163, 184, 0.6);
+}
+
+.actions {
+  display: flex;
+  align-items: flex-end;
+  flex: 1 1 160px;
+  min-width: 160px;
+  justify-content: flex-end;
+}
+
+.actions button {
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  padding: 0.85rem 1.15rem;
+  background: linear-gradient(135deg, #f97360 0%, #fb7185 100%);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+}
+
+.actions button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(249, 115, 96, 0.22);
+  filter: brightness(1.05);
+}
+
+.actions button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(248, 250, 252, 0.45);
+}
+
+@media (max-width: 640px) {
+  .filterContainer {
+    flex-direction: column;
+  }
+
+  .actions {
+    width: 100%;
+  }
 }

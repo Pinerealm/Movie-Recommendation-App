@@ -1,44 +1,58 @@
 .navbar ul {
   display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 1.5vw, 1.75rem);
   list-style: none;
   margin: 0;
   padding: 0;
-  align-items: center;
 }
 
+
 .navbar li {
-  margin-left: 1.5rem;
+  margin: 0;
 }
 
 .navbar a {
-  color: #fff;
+  position: relative;
+  color: #e2e8f0;
   text-decoration: none;
-  font-size: 1rem;
-  transition: color 0.3s;
-  padding: 8px 16px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.08);
+  border: 1px solid transparent;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
 }
 
 .navbar a:hover {
-  color: #646cff;
-  background: rgba(255, 255, 255, 0.1);
+  color: #f8fafc;
+  background: rgba(148, 163, 184, 0.2);
+  border-color: rgba(148, 163, 184, 0.35);
+  transform: translateY(-1px);
 }
 
 .logoutButton {
-  background: linear-gradient(135deg, #ff6b8a 0%, #ff8e91 100%);
+  background: linear-gradient(135deg, #f97360 0%, #fb7185 100%);
   border: none;
-  border-radius: 8px;
-  color: white;
-  font-size: 1rem;
-  padding: 8px 16px;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  padding: 0.6rem 1.1rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
   font-family: inherit;
 }
 
 .logoutButton:hover {
-  background: linear-gradient(135deg, #ff5577 0%, #ff7a7e 100%);
+  filter: brightness(1.08);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(255, 107, 138, 0.3);
+  box-shadow: 0 12px 24px rgba(249, 115, 96, 0.25);
+}
+
+.logoutButton:focus-visible,
+.navbar a:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(248, 250, 252, 0.5);
 }
